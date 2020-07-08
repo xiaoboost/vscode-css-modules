@@ -1,8 +1,10 @@
+import Chalk from 'chalk';
 import Webpack from 'webpack';
 import TerserPlugin from 'terser-webpack-plugin';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import FriendlyErrorsPlugin from 'friendly-errors-webpack-plugin';
 import GenerateJsonPlugin from 'generate-json-webpack-plugin';
+import ProgressBarPlugin from 'progress-bar-webpack-plugin';
 import PackageConfig from '../package.json';
 
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
@@ -21,7 +23,7 @@ import {
 /** 公共配置 */
 const webpackConfig: Webpack.Configuration = {
     target: 'node',
-    externals: builtinModules.concat(externalModules),
+    externals: builtinModules,
     mode: modeName,
     node: {
         __dirname: false,
@@ -34,7 +36,9 @@ const webpackConfig: Webpack.Configuration = {
     output: {
         path: outputDir,
         filename: 'scripts/[name].js',
+        publicPath: '../',
         libraryTarget: 'commonjs',
+        devtoolModuleFilenameTemplate: '[absolute-resource-path]',
     },
     resolve: {
         extensions: ['.ts', '.js', '.json'],
@@ -78,12 +82,17 @@ const webpackConfig: Webpack.Configuration = {
             description: PackageConfig.description,
             main: PackageConfig.main,
             author: PackageConfig.author,
+            engines: PackageConfig.engines,
+            activationEvents: PackageConfig.activationEvents,
+        }),
+        new ProgressBarPlugin({
+            total: 100,
+            format: `${Chalk.green('> building:')} [:bar] ${Chalk.green(':percent')} (:elapsed seconds)`,
         }),
     ],
 };
 
 if (isDevelopment) {
-    webpackConfig.watch = true;
     webpackConfig.devtool = 'source-map';
     webpackConfig.externals = builtinModules.concat(externalModules);
     webpackConfig.plugins = webpackConfig.plugins!.concat([
