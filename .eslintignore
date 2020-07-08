@@ -1,0 +1,10 @@
+.vscode/*
+.eslintrc.js
+
+bin/
+dist/
+build/
+node_modules/*
+
+index.js
+index-*.js
