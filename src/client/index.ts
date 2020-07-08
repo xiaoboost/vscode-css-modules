@@ -1,5 +1,6 @@
 import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient';
 import { ExtensionContext } from 'vscode';
+import { join } from 'path';
 
 let client: LanguageClient;
 
@@ -12,7 +13,7 @@ function scheme(lang: string) {
 
 export function activate(context: ExtensionContext) {
     // 语言服务文件绝对路径
-    const serverModule = context.asAbsolutePath('server.js');
+    const serverModule = context.asAbsolutePath(join('scripts', 'server.js'));
     // 语言服务启动配置
     const serverOptions: ServerOptions = {
         run: {
@@ -30,7 +31,7 @@ export function activate(context: ExtensionContext) {
     };
     // 客户端控制语言服务配置
     const clientOptions: LanguageClientOptions = {
-        documentSelector: [scheme('styl'), scheme('less'), scheme('sass')]
+        documentSelector: [scheme('styl'), scheme('less'), scheme('sass'), scheme('css')],
     };
 
     // 创建插件客户端

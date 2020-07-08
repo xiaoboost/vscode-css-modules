@@ -16,10 +16,10 @@
     "vscode": "^1.20.0"
   },
   "activationEvents": [
-    "onLanguage:styl",
-    "onLanguage:sass",
-    "onLanguage:less",
-    "onLanguage:css"
+    "onLanguage:Stylus",
+    "onLanguage:Sass",
+    "onLanguage:Less",
+    "onLanguage:CSS"
   ],
   "repository": {
     "type": "git",
